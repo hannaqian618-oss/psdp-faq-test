@@ -1,0 +1,1138 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Frequently Asked Questions | Public Safety Data Portal</title>
+  <style>
+    :root { --navy:#103b62; --blue:#14609b; --blue-light:#edf5fc; --text:#243242; --muted:#586777; --border:#d9e2ec; --focus:#e7ad32; }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin:0; background:#fff; color:var(--text); font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; }
+    .page { max-width:1060px; margin:0 auto; padding:36px 24px 80px; }
+    .eyebrow { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.11em; color:var(--blue); margin:0 0 8px; }
+    h1 { font-size:clamp(1.65rem,3vw,2.15rem); line-height:1.18; color:var(--navy); margin:0 0 12px; }
+    .intro { max-width:760px; margin:0 0 25px; color:var(--muted); }
+    .search-panel { border:1px solid #cfdae6; padding:21px 22px 15px; background:#f7fafc; border-radius:12px; margin:0 0 22px; }
+    .search-panel .search-label { display:block; font-size:15px; font-weight:700; color:var(--navy); margin:0 0 10px; }
+    .search-row { display:flex; gap:9px; align-items:stretch; }
+    .search-field { position:relative; flex:1; min-width:0; }
+    .search-icon { position:absolute; top:50%; left:15px; transform:translateY(-50%); color:#5c7185; pointer-events:none; }
+    #faq-search { appearance:none; -webkit-appearance:none; display:block; width:100%; min-height:49px; padding:11px 15px 11px 47px; border:1px solid #a8bccc; border-radius:7px; font:inherit; color:#172a3d; background:#fff; }
+    #faq-search::placeholder { color:#657584; opacity:1; }
+    #faq-search:focus { border-color:var(--blue); outline:3px solid #c7e1fa; outline-offset:1px; }
+    .clear-btn { border:1px solid #a8bccc; background:white; color:var(--navy); border-radius:7px; font:inherit; font-weight:700; padding:0 19px; cursor:pointer; }
+    .clear-btn:hover { background:#e7f0f9; }
+    .clear-btn:focus-visible, summary:focus-visible, a:focus-visible { outline:3px solid var(--focus); outline-offset:3px; }
+    .search-tip { margin:9px 0 0; color:#637282; font-size:13px; }
+    #faq-status { color:#42566b; font-size:14px; margin:0 0 15px; min-height:22px; }
+    .faq-group { border:1px solid var(--border); border-radius:9px; margin:0 0 12px; background:#fff; overflow:hidden; }
+    .group-heading { display:flex; align-items:center; gap:16px; justify-content:space-between; padding:17px 20px; background:#e9f1f9; color:var(--navy); font-size:18px; font-weight:750; cursor:pointer; list-style:none; }
+    .group-heading:hover { background:#dcebf8; }
+    .faq-group[open] > .group-heading { border-bottom:1px solid var(--border); }
+    summary::-webkit-details-marker { display:none; }
+    summary::marker { content:""; }
+    .group-right { flex-shrink:0; display:flex; align-items:center; gap:15px; }
+    .chevron { color:#41627e; transition:transform .15s ease; flex-shrink:0; }
+    .faq-group[open] > summary .group-chevron { transform:rotate(180deg); }
+    .faq-items { padding:2px 16px 13px; }
+    .faq-item { border-bottom:1px solid #e6ecf2; }
+    .faq-item:last-child { border-bottom:0; }
+    .faq-item > summary { cursor:pointer; padding:14px 12px; list-style:none; display:flex; align-items:center; gap:12px; font-size:16px; line-height:1.45; font-weight:650; color:#1b405e; }
+    .faq-item > summary:hover { color:#0865a3; background:#f7fbff; }
+    .faq-item[open] > summary { color:var(--navy); }
+    .faq-item[open] > summary .chevron { transform:rotate(180deg); }
+    .faq-question-text { flex:1; }
+    .answer-match { font-size:11px; font-weight:700; color:#4a6e89; background:#f0f6fb; border:1px solid #d5e6f3; border-radius:40px; padding:3px 8px; white-space:nowrap; }
+    .faq-answer { padding:3px 22px 20px 12px; line-height:1.65; max-width:96ch; overflow-wrap:anywhere; }
+    .faq-answer p { margin:9px 0 13px; }
+    .faq-answer ul, .faq-answer ol { padding-left:25px; margin:10px 0 16px; }
+    .faq-answer li { margin:5px 0; }
+    .faq-answer > li { list-style:disc; margin-left:25px; }
+    .faq-answer a { color:#075f9b; text-decoration:underline; text-underline-offset:2px; }
+    .faq-answer a:hover { color:#003c69; }
+    .answer-preview { display:none; }
+    .empty { border:1px dashed #9fb4ca; background:#f8fbfe; border-radius:9px; padding:22px; color:#435871; }
+    .empty strong { display:block; font-size:17px; color:var(--navy); margin-bottom:3px; }
+    .footer-note { color:#617080; font-size:12px; margin-top:24px; }
+    [hidden] { display:none !important; }
+    @media (max-width:600px) {
+      .page { padding:23px 14px 55px; }
+      .search-panel { padding:16px 13px 13px; }
+      .group-heading { padding:15px 13px; font-size:16px; }
+      .faq-items { padding:0 5px 7px; }
+      .faq-item > summary { padding:13px 9px; font-size:15px; }
+      .faq-answer { padding:0 10px 16px; font-size:15px; }
+      .answer-match { display:none; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } .chevron { transition:none; } }
+  </style>
+</head>
+<body>
+  <main class="page" id="faq-main">
+
+    <section class="search-panel" role="search" aria-label="Search frequently asked questions">
+      <p class="search-label">Search by keyword</p>
+      <div class="search-row">
+        <div class="search-field">
+          <svg class="search-icon" viewBox="0 0 24 24" width="21" height="21" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.4" fill="none" stroke="currentColor" stroke-width="2"/><path d="m16 16 5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input id="faq-search" type="search" placeholder="Search FAQs (e.g., download, YTD, privacy)" aria-label="Search frequently asked questions" autocomplete="off" aria-describedby="faq-status faq-tip">
+        </div>
+        <button class="clear-btn" id="clear-search" type="button" hidden>Clear</button>
+      </div>
+      <p class="search-tip" id="faq-tip">Searches both the questions and their answers. Enter one or more keywords.</p>
+    </section>
+    <p id="faq-status" role="status" aria-live="polite" aria-atomic="true">Browse the questions below or search by keyword.</p>
+    <div id="faq-list">
+      <details class="faq-group" data-category="Community Safety Indicators (C.S.I.)" id="topic-1">
+        <summary class="group-heading">
+          <span class="group-title">Community Safety Indicators (C.S.I.)</span>
+          <span class="group-right"><svg class="chevron group-chevron" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </summary>
+        <div class="faq-items">
+          <details class="faq-item" id="csiq1">
+            <summary>
+              <span class="faq-question-text">What are Community Safety Indicators (C.S.I.)?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>
+<strong>Community Safety Indicators (C.S.I.)</strong> is a term used by the Toronto Police Service to present police-reported information that reflects community safety.
+    </p>
+<p>
+<strong>C.S.I.</strong> replaces the term <strong>Major Crime Indicators (M.C.I.)</strong> and reflects a shift toward clearer, more inclusive, and community-focused language &mdash; one that goes beyond &ldquo;major crime&rdquo; and includes other incidents that have a significant impact on communities.
+    </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="csiq2">
+            <summary>
+              <span class="faq-question-text">What indicators are included in Community Safety Indicators (C.S.I.)?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>Community Safety Indicators (C.S.I.) published on the Public Safety Data Portal (P.S.D.P.) currently include:</p>
+<ul>
+<li><a href="https://data.tps.ca/datasets/TorontoPS::assault-open-data/about" rel="noopener noreferrer" target="_blank">Assault</a></li>
+<li><a href="https://data.tps.ca/datasets/TorontoPS::auto-theft-open-data/about" rel="noopener noreferrer" target="_blank">Auto Theft</a></li>
+<li><a href="https://data.tps.ca/datasets/TorontoPS::break-and-enter-open-data/about" rel="noopener noreferrer" target="_blank">Break and Enter</a></li>
+<li><a href="https://data.tps.ca/datasets/TorontoPS::robbery-open-data/about" rel="noopener noreferrer" target="_blank">Robbery</a></li>
+<li><a href="https://data.tps.ca/datasets/TorontoPS::theft-over-open-data/about" rel="noopener noreferrer" target="_blank">Theft Over</a></li>
+<li><a href="https://data.tps.ca/datasets/TorontoPS::homicides-open-data-asr-rc-tbl-002/about" rel="noopener noreferrer" target="_blank">Homicide</a></li>
+<li><a href="https://data.tps.ca/datasets/TorontoPS::shooting-and-firearm-discharges-open-data/about" rel="noopener noreferrer" target="_blank">Shootings and Firearm Discharges</a></li>
+<li><a href="https://app.fabric.microsoft.com/view?r=eyJrIjoiMTllYzczMmMtYWQzOS00ZTllLTk0NWItZmE0NDdlYzM1ZGFkIiwidCI6Ijg1MjljMjI1LWFjNDMtNDc0Yy04ZmI0LTBmNDA5NWFlOGQ1ZCJ9" rel="noopener noreferrer" target="_blank">Traffic Fatalities (Dashboard format only)</a></li>
+<li><a href="https://data.tps.ca/datasets/TorontoPS::hate-crimes-open-data/about" rel="noopener noreferrer" target="_blank">Hate Crimes</a></li>
+<li><a href="https://data.tps.ca/datasets/TorontoPS::intimate-partner-and-family-violence-open-data/about" rel="noopener noreferrer" target="_blank">Intimate Partner and Family Violence</a></li>
+</ul>
+<p>
+      These indicators are all part of the Community Safety Indicators (C.S.I.) framework, even though they may be published across multiple datasets.
+    </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="csiq3">
+            <summary>
+              <span class="faq-question-text">Why are some Community Safety Indicators (C.S.I.) published in separate datasets?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>Not all Community Safety Indicators (C.S.I.) are combined into a single dataset.</p>
+<p>The Community Safety Indicators (C.S.I.) open dataset currently mirrors the former Major Crime Indicators (M.C.I.) dataset and includes:</p>
+<ul>
+<li><a href="https://data.tps.ca/datasets/TorontoPS::assault-open-data/about" rel="noopener noreferrer" target="_blank">Assault</a></li>
+<li><a href="https://data.tps.ca/datasets/TorontoPS::auto-theft-open-data/about" rel="noopener noreferrer" target="_blank">Auto Theft</a></li>
+<li><a href="https://data.tps.ca/datasets/TorontoPS::break-and-enter-open-data/about" rel="noopener noreferrer" target="_blank">Break and Enter</a></li>
+<li><a href="https://data.tps.ca/datasets/TorontoPS::robbery-open-data/about" rel="noopener noreferrer" target="_blank">Robbery</a></li>
+<li><a href="https://data.tps.ca/datasets/TorontoPS::theft-over-open-data/about" rel="noopener noreferrer" target="_blank">Theft Over</a></li>
+</ul>
+<p></p>
+    Other Community Safety Indicators (C.S.I.)&mdash;<a href="https://data.tps.ca/datasets/TorontoPS::homicides-open-data-asr-rc-tbl-002/about" rel="noopener noreferrer" target="_blank">Homicide</a>, 
+      <a href="https://data.tps.ca/datasets/TorontoPS::shooting-and-firearm-discharges-open-data/about" rel="noopener noreferrer" target="_blank">Shootings and Firearm Discharges</a>, 
+      <a href="https://data.tps.ca/datasets/TorontoPS::hate-crimes-open-data/about" rel="noopener noreferrer" target="_blank">Hate Crimes</a>, 
+      <a href="https://data.tps.ca/datasets/TorontoPS::intimate-partner-and-family-violence-open-data/about" rel="noopener noreferrer" target="_blank">Intimate Partner and Family Violence (I.P.V.)</a>, and 
+      <a href="https://app.fabric.microsoft.com/view?r=eyJrIjoiMTllYzczMmMtYWQzOS00ZTllLTk0NWItZmE0NDdlYzM1ZGFkIiwidCI6Ijg1MjljMjI1LWFjNDMtNDc0Yy04ZmI0LTBmNDA5NWFlOGQ1ZCJ9" rel="noopener noreferrer" target="_blank">Traffic Fatalities (Dashboard format only)</a>
+      &mdash;are published as separate datasets or dashboards due to differences in reporting requirements, definitions, or analytical focus.
+    
+    <p>Together, these datasets form the broader C.S.I. framework.</p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="csiq4">
+            <summary>
+              <span class="faq-question-text">How does C.S.I. relate to previously published Major Crime Indicators (M.C.I.)?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>
+      Community Safety Indicators (C.S.I.) replace the term Major Crime Indicators (M.C.I.) across the Public Safety Data Portal (P.S.D.P.) and related products.
+    </p>
+<p>
+      All crime categories previously included under M.C.I. (Assault, Auto Theft, Break &amp; Enter, Robbery, and Theft Over) remain valid and comparable. No crime categories have been reclassified, removed, or added as part of this renaming.
+    </p>
+<p>
+      As a result, historical data remains consistent, and trend analyses using prior M.C.I. data can continue without adjustment.
+    </p>
+<p>
+      In short, Community Safety Indicators (C.S.I.) is a naming and framing update, not a change to how crimes are counted or categorized.
+    </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="csiq5">
+            <summary>
+              <span class="faq-question-text">Will additional indicators be added to Community Safety Indicators (C.S.I.) in the future?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>
+      Yes. The Community Safety Indicators (C.S.I.) framework is designed to expand and evolve over time.
+    </p>
+<p>
+      Additional datasets and indicators may be incorporated as reporting practices, data availability, and community needs change.
+    </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+        </div>
+      </details>
+      <details class="faq-group" data-category="Auto Theft Statistics Update" id="topic-2">
+        <summary class="group-heading">
+          <span class="group-title">Auto Theft Statistics Update</span>
+          <span class="group-right"><svg class="chevron group-chevron" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </summary>
+        <div class="faq-items">
+          <details class="faq-item" id="atsq1">
+            <summary>
+              <span class="faq-question-text">What has updated in auto theft reporting?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>
+      Enhancements have been applied to the auto theft reporting logic to improve accuracy, consistency, and clarity.
+      These enhancements help ensure reported statistics better reflect auto theft activity within the city.
+    </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="atsq2">
+            <summary>
+              <span class="faq-question-text">What specific updates were made to the auto theft reporting logic?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>The reporting logic has been refined in the following ways:</p>
+<ul>
+<li>Expanded inclusion of motorcycles and similar vehicle types</li>
+<li>Improved geographic alignment of reported incidents</li>
+<li>More consistent identification and counting of stolen vehicles</li>
+</ul>
+<p>
+      Together, these refinements improve consistency and strengthen data quality across auto theft statistics.
+    </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="atsq3">
+            <summary>
+              <span class="faq-question-text">How do these updates affect auto theft numbers?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>
+      Following these updates, auto theft numbers published in current releases may differ from figures reported in
+      earlier publications or archived reports. The updated reporting logic has been applied consistently to
+      historical data dating back to 2014.
+    </p>
+<p>
+      For this reason, year-over-year comparisons should be made using data from the same release framework.
+      Earlier releases may reflect different counting rules and should be compared with caution.
+    </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="atsq4">
+            <summary>
+              <span class="faq-question-text">Do these updates affect historical data or long-term trend analysis?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>
+      Historical data remains available; however, differences in reporting approaches mean that direct comparisons
+      with earlier releases should be interpreted with caution.
+    </p>
+<p>
+      The updated logic provides a more consistent baseline moving forward, supporting clearer long-term trend
+      analysis over time.
+    </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+        </div>
+      </details>
+      <details class="faq-group" data-category="Intimate Partner Violence (I.P.V.)" id="topic-3">
+        <summary class="group-heading">
+          <span class="group-title">Intimate Partner Violence (I.P.V.)</span>
+          <span class="group-right"><svg class="chevron group-chevron" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </summary>
+        <div class="faq-items">
+          <details class="faq-item" id="ipvq1">
+            <summary>
+              <span class="faq-question-text">What is Intimate Partner Violence?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>
+      The Toronto Police Service Intimate Partner Violence procedure,
+      <a href="https://www.tps.ca/media/procedures/2d60506b-2536-4d9f-8a86-28148e2775db.pdf" rel="noopener noreferrer" target="_blank">05-04</a>
+      defines Intimate Partner Violence. <strong>Intimate Partner Violence</strong> means any physical, sexual or psychological harm caused, or attempted, between persons involved in an intimate relationship including:
+    </p>
+<ul>
+<li>assault;</li>
+<li>murder;</li>
+<li>sexual assault;</li>
+<li>threatening;</li>
+<li>harassment;</li>
+<li>intimidation;</li>
+<li>unlawful interference with personal liberty;</li>
+<li>any other criminal offence;</li>
+<li>offences under other statutes, such as the Family Law Act, Children&rsquo;s Law Reform Act, etc.;</li>
+</ul>
+<p>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;but does not include child abuse investigations.
+    </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="ipvq2">
+            <summary>
+              <span class="faq-question-text">How is the relationship between the accused and victim categorized in the Intimate Partner Violence dataset?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>
+      The 3 categories for Intimate Partner Violence are <strong>Intimate Partner</strong>, <strong>Family</strong>, and <strong>Unclassified</strong>.
+      <br/><br/>
+<strong>Intimate Partner</strong> is defined as: an Intimate Relationship as "marriage, domestic partnership, engagement, casual or serious romantic involvement, and dating, whether in a current or former relationship. Intimate Partner Violence can occur between persons of any sex, sexual orientation, gender, gender identity, or gender expression, and it can occur in any type of intimate relationship including monogamous, non-committed, and relationships involving more than two partners.
+      <br/><br/>
+<strong>Family</strong> is defined as: Familial relationships such as parents, siblings, or any other family members.
+      <br/><br/>
+<strong>Unclassified</strong> is defined as: The relationship between the victim and the accused in the occurrence is not identified or indicated but the investigating officers have identified this as an intimate partner related incident.
+    </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="ipvq3">
+            <summary>
+              <span class="faq-question-text">What is a Historical Occurrence?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>
+      Historical Occurrence refers to occurrences where there is a difference between the reported date and the occurrence date by 365 days or more.
+    </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="ipvq4">
+            <summary>
+              <span class="faq-question-text">What does the Count field in the dataset represent?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>
+      The count field found in the intimate Partner Violence dataset is an aggregated count of Intimate Partner Violence data that is grouped by all preceding fields.
+    </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="ipvq5">
+            <summary>
+              <span class="faq-question-text">What to do if you are experiencing Intimate Partner Violence incident?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>
+      If you are experiencing Intimate Partner Violence you can:
+    </p>
+<p><strong>Contact the Police (9-1-1, *877, attend police station)</strong></p>
+<ul>
+<li>Talk to someone you trust</li>
+<li><a href="https://www.222tips.com/" rel="noopener noreferrer" target="_blank">222 Tips</a></li>
+<li>Utilize resources available to you</li>
+</ul></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="ipvq6">
+            <summary>
+              <span class="faq-question-text">What resources are available for someone experiencing Intimate Partner Violence?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>
+      Local services available to someone experiencing Intimate Partner Violence are:
+    </p>
+<ul>
+<li><a href="https://www.victimservicestoronto.com/home" rel="noopener noreferrer" target="_blank">Victim Services</a>: <strong>416-808-7066</strong></li>
+<li><a href="https://www.womenscollegehospital.ca/care-programs/sexual-assault-domestic-violence-care-centre/" rel="noopener noreferrer" target="_blank">Women&rsquo;s College Hospital Sexual Assault/ Domestic Violence Care Centre</a>: <strong>416-323-6040</strong></li>
+<li><a href="https://www.shn.ca/areas-of-care/sexual-assault-and-domestic-violence-care-centre/" rel="noopener noreferrer" target="_blank">Scarborough Health Network Sexual Assault/ Domestic Violence Care Centre</a>: <strong>416-495-2555</strong></li>
+<li><a href="https://www.awhl.org/?gad_source=1&amp;gad_campaignid=1002951106&amp;gclid=EAIaIQobChMIjs7K-tfbkAMVKxp7Bx3t_C_WEAAYASAAEgK-P_D_BwE" rel="noopener noreferrer" target="_blank">Assaulted Women&rsquo;s Helpline</a>: <strong>416-863-0511</strong>, <strong>1-866-863-0511</strong> or #SAFE (#7233) on Bell, Rogers, Fido or Telus Mobile Phones.</li>
+<li><a href="https://www.tps.ca/crime-prevention/are-you-in-an-abusive-relationship/" rel="noopener noreferrer" target="_blank">Additional Help and Resources</a></li>
+</ul>
+<p>Additional resources:</p>
+<ul>
+<li><a href="https://www.canada.ca/en/women-gender-equality/gender-based-violence/intimate-partner-violence.html" rel="noopener noreferrer" target="_blank">Government of Canada</a></li>
+<li><a href="https://wrps.ca/learn/intimate-partner-violence" rel="noopener noreferrer" target="_blank">Waterloo Regional Police Service</a></li>
+<li><a href="https://www.yrp.ca/en/crime-prevention/intimate-partner-violence.asp" rel="noopener noreferrer" target="_blank">York Regional Police</a></li>
+<li><a href="https://www.peelpolice.ca/en/safety-tips/family-and-intimate-partner-violence.aspx" rel="noopener noreferrer" target="_blank">Peel Regional Police</a></li>
+<li><a href="https://www.haltonpolice.ca/en/staying-safe/intimate-partner-violence.aspx" rel="noopener noreferrer" target="_blank">Halton Regional Police Service</a></li>
+</ul></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="ipvq7">
+            <summary>
+              <span class="faq-question-text">How can you support someone experiencing Intimate Partner Violence?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>
+      Abuse victims face many barriers including fear of further harm or injury, self-blame, shame, restrictions on finances, resources and supports. They can experience social pressures to keep their family together and other cultural taboos. You can help someone experiencing Intimate Partner Violence by:
+    </p>
+<ul>
+<li>empowering them to seek safety options</li>
+<li>helping them to identify resources, services and options available to them</li>
+<li>letting them know it is not their fault</li>
+</ul>
+<p>
+      By providing non-judgemental support, you create an opportunity for them to seek your support again.
+    </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="ipvq8">
+            <summary>
+              <span class="faq-question-text">What is TPS doing to address Intimate Partner Violence?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>
+      TPS is addressing Intimate Partner Violence through building and maintaining partnerships with community organizations to promote awareness about the issue of Intimate Partner Violence and increase the awareness of available resources and support services.
+      <br/><br/>
+      In addition, TPS members are trained on IPV response, all IPV investigations are case-managed by investigators who are accredited in IPV investigations and who use a Trauma-Informed Approach that enhances victim safety and ensures a victim-focused response.
+    </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="ipvq9">
+            <summary>
+              <span class="faq-question-text">Where can I learn more about Intimate Partner Violence?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><ul>
+<li><a href="https://torontops.maps.arcgis.com/sharing/rest/content/items/c26eefe698284c6b8702ed5b14de4f25/data" rel="noopener noreferrer" target="_blank">Intimate Partner Violence Board Report</a></li>
+<li><a href="https://www.tps.ca/media/procedures/2d60506b-2536-4d9f-8a86-28148e2775db.pdf" rel="noopener noreferrer" target="_blank">Toronto Police Service Intimate Partner Violence Procedure</a></li>
+<li><a href="https://www.tps.ca/crime-prevention/are-you-in-an-abusive-relationship/" rel="noopener noreferrer" target="_blank">Help Me Find a Way to Leave Abuse</a></li>
+<li><a href="https://www.tps.ca/services/victim-services/" rel="noopener noreferrer" target="_blank">Victim &amp; Survivor Services</a></li>
+</ul></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+        </div>
+      </details>
+      <details class="faq-group" data-category="Hate Crimes" id="topic-4">
+        <summary class="group-heading">
+          <span class="group-title">Hate Crimes</span>
+          <span class="group-right"><svg class="chevron group-chevron" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </summary>
+        <div class="faq-items">
+          <details class="faq-item" id="hcq1">
+            <summary>
+              <span class="faq-question-text">What is a hate crime?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> A hate crime is a <strong>criminal offence</strong> committed against a person or property motivated in whole or in part by bias, prejudice or hate based towards an &ldquo;identifiable group&rdquo; based on race, national or ethnic origin, language, colour, religion, sex, age, mental or physical disability, sexual orientation or gender identity or expression or any other similar factor.<br/><br/>
+                A hate crime or hate-motivated incident involves the intentional selection of a victim based on the offender&rsquo;s hate/bias/prejudice towards an identifiable group.<br/><br/>
+                Section 718.2(a)(i) of the <i>Criminal Code of Canada (Criminal Code)</i> requires a court that imposes a sentence (for any offence) to consider, &ldquo;evidence that the offence was motivated by bias, prejudice or hate based on race, national or ethnic origin, language, colour, religion, sex, age, mental or physical disability, sexual orientation, or gender identity or expression, or on any other similar factor&rdquo;, as an aggravating factor in deciding on the appropriate sentence. For example, if an individual carves neo-Nazi hate symbols, imagery or words such as the letters KKK and/or racial slurs, into the door of a vehicle, the offender may be charged by police with the criminal offence of mischief. The investigators will document the occurrence and collect all related evidence such as witness/victim statements, photographs and video footage. The occurrence would be classified as a hate crime. The consent of the Attorney General would not be required to commence criminal proceedings for such a case and all hate-related evidence would be presented to the courts at the time of sentencing. 
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="hcq2">
+            <summary>
+              <span class="faq-question-text">What is a hate incident?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>A hate incident is a<strong> non-criminal</strong> action or behaviour that is motivated by hate against an identifiable group. Examples of hate incidents include using racial slurs or insulting a person because of their ethnic or religious dress or how they identify.<br/><br/>
+                A hate crime or hate-motivated incident involves the intentional selection of a victim based on the offender&rsquo;s hate/bias/prejudice towards an identifiable group.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="hcq3">
+            <summary>
+              <span class="faq-question-text">What is the difference between a hate crime and hate incident?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> The difference between a hate crime and hate incident is the element of criminality. The Toronto Police Service recognizes that hate-related incidents, whether criminal or not, can have a significant impact on victims, communities and society as a whole. If unchecked, these crimes can result in escalating social tensions between different groups that can lead to isolation, stress and divisiveness. 
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="hcq4">
+            <summary>
+              <span class="faq-question-text">Where does hate crime data come from?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> TPS hate crime data is derived from the Hate Crime Tracker (form). This form is completed for all reported hate-related occurrences. The TPS Hate Crime Unit is responsible for the review and classification of these occurrences. The data used in the hate crimes open data and dashboard includes only verified hate crimes.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="hcq5">
+            <summary>
+              <span class="faq-question-text">Why does TPS track hate crime data?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> The Ontario Policing Standards Manual (2000) requires police services to maintain statistical data on hate-related occurrences for reports to the police service board and to the Canadian Centre for Justice Statistics (CCJS).<br/><br/>
+                Hate crime trends and patterns across the City help inform TPS-wide strategies such as hate crime prevention, community outreach and public education.<br/><br/>
+                The TPS Hate Crime Statistical Report is presented to the Toronto Police Service Board annually and is publicly available on the Dashboard Resource page. The Report provides important information to the public including: <br/>
+</p><ul>
+<li>Statistical data on reported hate crime in Toronto </li>
+<li>The methodology used to classify occurrences</li>
+<li>The community impact of hate crimes</li>
+<li><i>Criminal Code</i> &ndash; hate provisions</li>
+<li>Types of offences committed</li>
+<li>Education and community outreach initiatives</li>
+</ul></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="hcq6">
+            <summary>
+              <span class="faq-question-text">What is the role of the Ministry of Attorney General’s Hate Crime Working Group and how do they work with police?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> Formed in 2019, the Criminal Law Division&rsquo;s (CLD) Hate Crime Working Group (HCWG) is comprised of specially-trained counsel from the Crown Law Office &ndash; Criminal and representatives from Crown Attorney&rsquo;s offices in each region across the province. HCWG members provide expertise and advice to police and Crowns in their regions in relation to any hate crime investigation and prosecution, and play an important role in tracking hate crime prosecutions in the province.<br/><br/>
+                The HCWG encourages police to reach out as needed through identified regional representatives. <br/><br/>
+                The HCWG is also available to assist anytime the police are considering laying a hate propaganda charge requiring Attorney General (AG) consent (i.e. wilful promotion of hatred, wilful promotion of antisemitism and advocating genocide), as well as where police are seeking AG consent to apply for the seizure and forfeiture of hate-related materials. 
+
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="hcq7">
+            <summary>
+              <span class="faq-question-text">How does the law address hate propaganda offences? When is Attorney General consent required?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> <strong>Hate Propaganda Sections of the <i>Criminal Code</i> </strong><br/><br/>
+                There are four hate propaganda offences.<br/><br/>
+                &ldquo;Hate propaganda&rdquo; is defined in section 320(8) of the Criminal Code as: &ldquo;any writing, sign or visible representation that advocates or promotes genocide or the communication of which by any person would constitute an offence under section 319&rdquo;. <br/><br/>
+                The hate propaganda sections of the Criminal Code list specific offences including advocating genocide (section 318), public incitement of hatred (section 319(1)), wilful promotion of hatred (section 319(2)) and wilful promotion of antisemitism (section 319 (2.1)). <br/><br/>
+<i>Advocating Genocide</i> &ndash; s. 318(1) &ndash; Advocating or promoting genocide against an &ldquo;identifiable group&rdquo;<br/>
+</p><ul>
+<li>&ldquo;Genocide&rdquo; is defined in s. 318(2)</li>
+<li>&ldquo;Identifiable group&rdquo; is defined in s. 318(4). This definition, which applies to all four hate propaganda offences where it is mentioned, means &ldquo;any section of the public distinguished by colour, race, religion, national or ethnic origin, age, sex, sexual orientation, gender identity or expression, or mental or physical disability.&rdquo; </li>
+<li>See <i>Mugesera v. Canada (Minister of Citizenship and Immigration)</i>, <a href="https://canlii.ca/t/1l249">2005 SCC 40 (SCC) </a></li>
+<li>Attorney General must consent to prosecution - s. 318(3)</li>
+</ul><br/>
+<i>Public Incitement of Hatred </i>&ndash; s. 319(1) &ndash; By communicating statements in any public place, incites hatred against any identifiable group where such incitement is likely to lead to a breach of the peace<br/>
+<ul>
+<li>&ldquo;Communicating,&rdquo; &ldquo;public place&rdquo; and &ldquo;statements&rdquo; are defined in s. 319(7). Note that &ldquo;statements&rdquo; includes &ldquo;words spoken or written or recorded electronically or electromagnetically or otherwise, and gestures, signs or other visible representations&rdquo;</li>
+<li>Attorney General consent is not required</li>
+</ul><br/>
+<i>Wilful Promotion of Hatred </i> &ndash; s. 319(2) &ndash; By communicating statements, other than in private conversation, wilfully promotes hatred against any identifiable group<br/>
+<ul>
+<li>The meaning of &ldquo;wilful,&rdquo; &ldquo;promotes,&rdquo; and &ldquo;hatred&rdquo; are addressed in <i>R. v. Keegstra</i>, <a href="https://canlii.ca/t/1fsr1">[1990] 3 S.C.R. 697 (SCC)</a>. &ldquo;Hatred&rdquo; connotes an emotion of an intense and extreme nature that is clearly associated with vilification and detestation. Only the most intense forms of dislike are covered</li>
+<li>Attorney General must consent to prosecution (s. 319(6)) </li>
+<li>See <i>R. v. Krymowski</i> <a href="https://canlii.ca/t/1jtfn">[2005] 1 S.C.R. 101, 2005 (SCC)</a> re issues of proof respecting targeting of Roma community</li>
+<li>See also <i>Warman v. Kouba</i> <a href="https://canlii.ca/t/1q60v">[2006]CHRT No. 50</a> which provides a useful list of 11 &ldquo;Hallmarks of Hate&rdquo;  which, although neither mandatory nor exhaustive, provide a helpful indication of the kinds of communications that cross the line from lawful speech to hate speech</li>
+</ul><br/>
+<i>Wilful Promotion of Antisemitism  </i> &ndash; s. 319(2.1): By communicating statements, other than in private conversation, that wilfully promotes antisemitism by condoning, denying or downplaying the Holocaust<br/>
+<ul>
+<li>New provision &ndash; enacted in June 2022</li>
+<li>This provision is strictly limited to statements aimed at condoning, denying, or downplaying the Holocaust. Hateful communications targeting members of the Jewish community are prosecuted under one of the other propaganda offences (i.e., wilful promotion of hatred, public incitement of hatred, or advocating genocide). Any combination of <i>Criminal Code</i> offences can be laid depending on the facts of the case</li>
+<li>Attorney General must consent to prosecution s. 319(6) </li>
+</ul></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="hcq8">
+            <summary>
+              <span class="faq-question-text">How are hate crimes verified?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> The verification process is based on the criteria set by the Canadian Centre for Justice and Community Safety Statistics and the Criminal Code.<br/>
+</p><ul>
+<li><a href="https://www150.statcan.gc.ca/n1/pub/71-607-x/71-607-x2024013-eng.htm">The Canadian Centre for Justice and Community Safety Statistics</a></li><br/>
+<li><a href="https://laws-lois.justice.gc.ca/eng/acts/c-46/section-718.2.html"><i>Criminal Code of Canada</i></a></li>
+</ul></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="hcq9">
+            <summary>
+              <span class="faq-question-text">How does someone report a hate crime?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> In case of an emergency, call 9-1-1, if there is an immediate threat to life or property.<br/><br/>
+                Non&ndash;emergency, call 416 808 2222. <br/><br/>
+                Hate crimes can also be reported by flagging down a police officer if nearby or by attending a police station in-person.<br/><br/> 
+                To report hate motivated graffiti online please visit the TPS website and view the REPORT HATE MOTIVATED GRAFFITI FORM <a href="https://www.tps.ca/services/form-centre/hate-motivated-graffiti/">(https://www.tps.ca/services/form-centre/hate-motivated-graffiti/)</a><br/><br/>
+                To report crimes anonymously, call Crime Stoppers at: 416 222 8477 (TIPS) or online at <a href="https://www.222tips.com/" rel="noopener noreferrer" target="_blank">222tips.com</a>.
+
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="hcq10">
+            <summary>
+              <span class="faq-question-text">How long has TPS been tracking hate crimes?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> TPS has been publicly reporting hate crime data since 1998.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="hcq11">
+            <summary>
+              <span class="faq-question-text">What is the difference between race and ethnicity?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> Race and ethnicity are two distinct terms referring to either physical or cultural characteristics of groups of people. Race can be understood as a system of social classification. Canada&rsquo;s Anti-Racism Strategy 2019&ndash;2022 clarifies that, "race is a &lsquo;social construct.&rsquo; This means that society forms ideas of race based on geographic, historical, political, economic, social and cultural factors, as well as physical traits.&rdquo; In alignment with Ontario's Anti-Racism Data Standards, TPS uses the following broad race categories: Black, White, Middle Eastern, South Asian, Latino, Indigenous, and East/Southeast Asian.<br/><br/>
+                Ethnicity refers to the cultural characteristics of people from a certain geographic region. This can include factors such as language, religion, and customs. The Ontario Human Rights Commission describes ethnicity as "groups sharing a distinctive cultural and historical tradition often associated with race, place of origin, ancestry or creed."
+
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="hcq12">
+            <summary>
+              <span class="faq-question-text">What is the difference between sexual orientation and gender?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>Sexual orientation refers to how a person describes their sexuality. It encompasses a broad range of identities; for example, someone may describe themselves as hetrosexual, gay, lesbian, or bisexual. Sexual orientation is closely related to a person's sexual attraction and behaviour but is distinct from gender and the sex assigned at birth. Statistics Canada explains that "sexual orientation is a complex and evolving subject for which there is no universally accepted definition. How people define their sexuality and the words that they use to do so are affected by ongoing social change, making sexual orientation a difficult concept to define." TPS uses the broad categories of asexual, bisexual, gay, straight/hetrosexual, lesbian, pansexual, questioning, and "other sexual orientation".<br/><br/>
+                Gender refers to an individual's personal and social identity as a woman, man, or non-binary person. Gender is closely related to identity and expression. Gender identity refers to how an individual feels personally and individually. Gender expression refers to how an individual presents themselves (i.e., through factors such as accessories, body language, and aesthetic choices) regardless of their gender identity. The gender of a person does not always match their assigned sex at birth and may differ from current legal identifications or documentation. TPS uses the broad categories of female, male, gender diverse (non-binary), transgender, two-spirit, and other.
+
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="hcq13">
+            <summary>
+              <span class="faq-question-text">Why are the arrest rates so low for hate crimes?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> It is often very difficult to identify suspects due to the lack of witnesses, digital and/or forensic evidence. Moreover, many hate crimes occur without the victim present, as in the case of hate motivated graffiti or mischief. 
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="hcq14">
+            <summary>
+              <span class="faq-question-text">What is a “bias category”?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> Hate crime occurrences are classified using categories based on the criteria listed in s. 718.2(a)(i) of the <i>Criminal Code</i>: &ldquo;race, national or ethnic origin, language, colour, religion, sex, age, mental or physical disability, sexual orientation, or gender, or other similar factor&rdquo;. These categories are referred to as &ldquo;bias category&rdquo;.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="hcq15">
+            <summary>
+              <span class="faq-question-text">What are Divisions and Neighbourhoods?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> TPS divisions represent geographical sections of the city. There are a total of 16 divisions. <br/><br/>
+                Toronto&rsquo;s 158 neighbourhoods represent diverse boundaries based on geographical features. Some neighbourhoods may be a part of more than one division. For more information about the neighbourhoods, please visit:<a href="https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/neighbourhood-profiles/about-toronto-neighbourhoods/"> https://www.toronto.ca/city-government/data-research-maps/neighbourhoods-communities/neighbourhood-profiles/about-toronto-neighbourhoods/</a>
+</p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="hcq16">
+            <summary>
+              <span class="faq-question-text">Why do the number of hate crime occurrences and the identifiable groups targeted fluctuate throughout the year?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> Hate crime trends may differ throughout the year for many different reasons. Geopolitical events (wars, politics, notable events, etc.) are typically the driving factor for changes in hate crime trends. Education, training, increased media coverage, etc., can also contribute to the fluctuation of the number of reported hate crimes and the particular community groups victimized. 
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="hcq17">
+            <summary>
+              <span class="faq-question-text">Why do the total number of reported hate crimes change when adding multiple bias category?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> Some hate crime occurrences have more than one bias category, when selecting multiple bias categories simultaneously this will only represent the occurrences where both biases were present in the same occurrence.  
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="hcq18">
+            <summary>
+              <span class="faq-question-text">What is “Other similar factor” in s. 718.2(a)(i)?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> &ldquo;Other similar factor&rdquo; includes factors not innumerate specifically in section 718.2 of the Criminal Code, but for which the police service believes that the individual was targeted with hatred/bias/prejudice because of an identifiable characteristic. This could include, for example, hatred of the victim&rsquo;s profession, immigrant/refugee status, or their socio-economic status (e.g. individuals who are unhoused, etc.). 
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+        </div>
+      </details>
+      <details class="faq-group" data-category="Analytics" id="topic-5">
+        <summary class="group-heading">
+          <span class="group-title">Analytics</span>
+          <span class="group-right"><svg class="chevron group-chevron" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </summary>
+        <div class="faq-items">
+          <details class="faq-item" id="aq1">
+            <summary>
+              <span class="faq-question-text">What is the difference between year-to-date and year end?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> <strong>Year-to-Date (YTD):</strong>refers to the period beginning on January 1st of the current year up to and including the present date or date as indicated. The same time period may be applied across multiple years in order to determine trends over time. <br/>
+<br/><strong>Year End:</strong>refers to the full year period beginning on January 1st and ending on December 31st. This time period may be applied across multiple years in order to compare year over year changes and/or determine trends over time.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="aq2">
+            <summary>
+              <span class="faq-question-text">Why is the data count presented in the Crime App YTD different from the YTD Data Analytics Dashboards for C.S.I., Homicide and Shootings &amp; Firearm Discharges?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>The Crime App YTD is updated daily and displays data accurate as of the previous day while the data analytics dashboards for C.S.I., Homicides and Shootings &amp; Firearm Discharges are updated on the first business day of the week and are accurate as of Sunday at 11:59PM of the current week.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="aq3">
+            <summary>
+              <span class="faq-question-text">How often are the Data Analytics Dashboards updated?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> YTD Dashboards are updated weekly on the first business day of the week and are accurate as of Sunday at 11:59PM of the current week.
+                <br/><br/>Historical Dashboards are updated quarterly, aligned with each open data release.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="aq4">
+            <summary>
+              <span class="faq-question-text">Why does the historical data presented in the YTD dashboards change over time?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> All YTD dashboards display data for the same time period from January 1 to the most recent date of each year. For example, on June 30th, the data for each year will be from January 1 to June 30th for 2016, 2017, 2018,  etc. respectively. If you're interested in a snapshot of the year end totals for the historical years, please view the Year End dashboards. For further information of year end data, see the open datasets avaliable for download.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+        </div>
+      </details>
+      <details class="faq-group" data-category="Customer Service" id="topic-6">
+        <summary class="group-heading">
+          <span class="group-title">Customer Service</span>
+          <span class="group-right"><svg class="chevron group-chevron" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </summary>
+        <div class="faq-items">
+          <details class="faq-item" id="csq1">
+            <summary>
+              <span class="faq-question-text">The location identified on the Crime App YTD for a general occurrence is not the same as what was mentioned on the TPS news release/twitter account. What is the most accurate location?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>The location coordinates provided in the Crime App YTD application have been offset to the closest intersection in order to the protect privacy of those involved and is based on the direct location source provided in the occurrence details. This point will have a more accurate location compared to the information provided in a news release or Twitter post. 
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="csq2">
+            <summary>
+              <span class="faq-question-text">Who can I inform if a link doesn&#x27;t work?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> 
+                  Please email us at <a href="mailto:Analytics.Innovation@torontopolice.on.ca">Analytics &amp; Innovation</a> if you encounter any links on our site that do not work as expected. 
+            </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="csq3">
+            <summary>
+              <span class="faq-question-text">Where do I submit my feedback/suggestions?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> Any suggestions and feedback can be emailed to <a href="mailto:Analytics.Innovation@torontopolice.on.ca">Analytics &amp; Innovation</a>
+</p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="csq4">
+            <summary>
+              <span class="faq-question-text">Who do I contact if I have questions about the data on the Public Safety Data Portal?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> Please email <a href="mailto:Analytics.Innovation@torontopolice.on.ca">Analytics &amp; Innovation</a> if you have any questions about the data on the Public Safety Data Portal and someone from our team will respond as soon as possible.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="csq5">
+            <summary>
+              <span class="faq-question-text">If the data I want is not on the Public Safety Data Portal, how can I request it? Is this process different if I am an academic, work for a Canadian government agency or if this is a media request?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> If the data on the Public Safety Data Portal does not sufficiently meet your needs, you may want to submit a data request under the Municipal Freedom of Information &amp; Protection of Privacy Act which are managed by the Access and Privacy Unit of Toronto Police Service. Information on how you can submit this request to Toronto Police Service can be found here: <a href="https://www.tps.ca/services/freedom-information-request/" rel="noopener noreferrer" target="_blank">https://www.tps.ca/services/freedom-information-request/</a>.
+                  
+                     
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="csq6">
+            <summary>
+              <span class="faq-question-text">Can I use data from the Public Safety Data Portal for commercial/educational purposes?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> Data provided on the Public Safety Data Portal is open and available to be utilized for any purposes.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="csq7">
+            <summary>
+              <span class="faq-question-text">What resources are available for understanding the information provided on the Public Safety Data Portal?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> The Service is committed to the continuous release of open data and literacy programs to further promote the use of police information and the development of innovative solutions to address public safety matters in the City of Toronto. We provide the following tools to enhance the user&rsquo;s ability to understand the data available on the Public Safety Data Portal:<br/>
+<br/>(1) Several video tutorials to enhance user literacy and awareness of the elements available.
+                    <br/><a href="https://data.tps.ca/pages/frequently-asked-questions" rel="noopener noreferrer" target="_blank">Frequently Asked Questions</a>
+<br/> <a href="https://www.youtube.com/watch?v=ih160EkH_9c" rel="noopener noreferrer" target="_blank">Shootings &amp; Firearm Discharges Open Data Video</a>
+<br/><br/>(2) Documentation which includes metadata, descriptions, qualifiers and limitations. 
+                    <br/> <a href="https://torontops.maps.arcgis.com/sharing/rest/content/items/c0b17f1888544078bf650f3b8b04d35d/data" rel="noopener noreferrer" target="_blank">Open Data Documentation</a>
+<br/> <a href="https://torontops.maps.arcgis.com/sharing/rest/content/items/ffca1e4693c54ab69e44119acf1bcb99/data" rel="noopener noreferrer" target="_blank">ASR Open Data Documentation</a>
+<br/>
+</p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+        </div>
+      </details>
+      <details class="faq-group" data-category="Data Privacy" id="topic-7">
+        <summary class="group-heading">
+          <span class="group-title">Data Privacy</span>
+          <span class="group-right"><svg class="chevron group-chevron" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </summary>
+        <div class="faq-items">
+          <details class="faq-item" id="pq1">
+            <summary>
+              <span class="faq-question-text">How is privacy protected within the Public Safety Data Portal?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>Prior to the release of any dataset, the data goes through a privacy assessment to ensure that any personal identifiers/confidential information is removed from the dataset. Additionally, all geospatial information in masked to the nearest intersection node so that no point will be attributable to a residence.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+        </div>
+      </details>
+      <details class="faq-group" data-category="Mapping" id="topic-8">
+        <summary class="group-heading">
+          <span class="group-title">Mapping</span>
+          <span class="group-right"><svg class="chevron group-chevron" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </summary>
+        <div class="faq-items">
+          <details class="faq-item" id="qm1">
+            <summary>
+              <span class="faq-question-text">How can I visualize and summarize the open datasets?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> Please see the <a href="https://torontops.maps.arcgis.com/home/item.html?id=1940d2e4d48841bbb5ee8a31d836089a" rel="noopener noreferrer" target="_blank">Visualizing and Summarizing Open Data guide.</a>
+</p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="qm2">
+            <summary>
+              <span class="faq-question-text">An occurrence appeared on the Crime App YTD yesterday and is no longer present today. What happened to it?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> The Crime App YTD only includes data for the following major crime types: Assault, Auto Theft, Break &amp; Enter, Robbery, Sexual Assault, Theft Over, Homicides and Shootings &amp; Firearm Discharges. Crime data is very dynamic and updates to investigations may result in changes made to occurrence classifications. Once an occurrence has been reclassified to a different crime type not listed above, it will no longer appear in the map.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="qm3">
+            <summary>
+              <span class="faq-question-text">I&#x27;d like to use the data from the Crime App YTD to build a product/application. How can I access it? Do you have an API?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> The information can be accessed through the following <a href="https://torontops.maps.arcgis.com/home/item.html?id=cd594c082591479887f54eef41394b36" rel="noopener noreferrer" target="_blank">data source.</a>
+</p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="qm4">
+            <summary>
+              <span class="faq-question-text">What is the update frequency of the mapping applications?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> The update frequency varies by application and data source:
+                </p><li>Crime App (Year-to-Date) is updated every six hours and displays data accurate as of the previous day.
+                  </li><li>Crime App (Year-End) is updated quarterly, aligned with each open data release.
+                  </li><li>Calls for Service App is updated every 20 minutes, displaying data from the previous four hours.
+                  </li><li>Fatal Collisions App is updated daily, reflecting incidents reported within the past 48 hours, depending on data availability.
+                  </li><li>Neighbourhood Crime App is updated annually, aligned with the Q4 open data release.
+                  </li><li>Annual Statistical Report (ASR) Maps are updated annually, in alignment with the publication of the ASR.
+                
+            </li></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+        </div>
+      </details>
+      <details class="faq-group" data-category="Open Data" id="topic-9">
+        <summary class="group-heading">
+          <span class="group-title">Open Data</span>
+          <span class="group-right"><svg class="chevron group-chevron" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </summary>
+        <div class="faq-items">
+          <details class="faq-item" id="qo1">
+            <summary>
+              <span class="faq-question-text">Why am I not able to download &quot;Year-to-Date (YTD)&quot; data?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>The YTD reported crime dataset is intended to provide communities with information regarding public safety and awareness. 
+                As such, the data supplied to the Toronto Police Service by the reporting parties is preliminary and may not have been fully verified and may be subject to change as investigations progress.
+                <br/><br/>Data is only available for download for historical datasets. YTD data is only available through the data analytics and Crime App YTD.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="qo2">
+            <summary>
+              <span class="faq-question-text">What metadata is available for the datasets?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> All metadata is available in the 
+                <a href="https://torontops.maps.arcgis.com/sharing/rest/content/items/c0b17f1888544078bf650f3b8b04d35d/data" rel="noopener noreferrer" target="_blank">Public Safety Data Portal Open Data Documentation</a> or 
+                <a href="https://torontops.maps.arcgis.com/sharing/rest/content/items/ffca1e4693c54ab69e44119acf1bcb99/data" rel="noopener noreferrer" target="_blank">Annual Statistical Report Documentation.</a> 
+                These documents include detailed table descriptions, field definitions and a glossary of terms for the respective data tables listed in each.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="qo3">
+            <summary>
+              <span class="faq-question-text">What data formats are available for download?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> Datasets can be downloaded in multiple formats, including CSV, Excel, Shapefile (SHP), GeoJSON, KML, File Geodatabase, GeoPackage, SQLite Geodatabase, Feature Collection, and accessed via API services.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="qo4">
+            <summary>
+              <span class="faq-question-text">If a crime has been reported through Citizen Online Reporting (CORE) is it on your data portal?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> Data regarding the following crime/report types can be downloaded at the row-level: 
+                    </p><li>Community Safety Indicators (including Assault, Auto Theft, Break &amp; Enter, Robbery, Theft Over)
+                    </li><li>Homicides
+                    </li><li>Shootings &amp; Firearm Discharges
+                    </li><li>Bicycle Thefts
+                    </li><li>Killed &amp; Seriously Injured Motor Vehicle Collisions
+
+                    <br/> <br/>
+<p> Data regarding the following crime/report types can be downloaded at an aggregate level:
+                    </p></li><li>Total Reported Crimes
+
+                    <br/><br/>
+<p> Data regarding sexual assaults is only available as data analytics dashboards or in the year-to-date crime mapping application.
+              
+            </p></li></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="qo5">
+            <summary>
+              <span class="faq-question-text">How often is the data updated on the Portal? Will crimes from yesterday be available?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> The open datasets are refreshed/updated quarterly. Year end Community Safety Indicators, Homicides, Shooting &amp; Firearm Discharges, Bicycle Thefts and Killed &amp; Seriously Injured Motor Vehicle Collisions are updated within the first quarter of each year. The datasets for the Annual Statistical Report are updated by the end of the second quarter. For a full update schedule please visit our <a href="https://torontops.maps.arcgis.com/apps/dashboards/f3c005f9acff45f1881437f9269eedb8" rel="noopener noreferrer" target="_blank">open data catalogue.</a>
+<br/><br/>Data analytics dashboards for Community Safety Indicators, Homicides, and Shootings &amp; Firearm Discharges are updated weekly.
+                    <br/><br/>The Crime App YTD mapping application is updated daily with data accurate as of the previous day for the current year only.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="qo6">
+            <summary>
+              <span class="faq-question-text">How often is this Field Information Reports (FIRS) dataset updated?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> The Field Information Reports (FIRS) dataset is an archived dataset and is no longer being updated. This data includes information from 2008 to 2013.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="qo7">
+            <summary>
+              <span class="faq-question-text">Are entire datasets updated every year or is new data just added on?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> This is entirely dependent on the dataset in question. The following datasets are completely refreshed annually: Community Safety Indicators, Homicides, Shootings &amp; Firearm Discharges, Bicycle Thefts, and Killed &amp; Seriously Injured Motor Vehicle Collisions. 
+                    <br/><br/>For the datasets published during the release of the Annual Statistical Report, 
+                    the documentation provides a table which identifies the tables that are wholly updated (Refreshed) versus where data for the current year is appended (Static).
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="qo8">
+            <summary>
+              <span class="faq-question-text">Will there be more public data available in the future? How can I be updated on new data made available?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> We are continually working to provide more datasets and have a plan to release several new datasets over the course of the next two (2) years. The annual refresh of our datasets occur between the first and second quarters of the year. Please check our "What's New" section of the PSDP Home Page for notifications on our updates.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+        </div>
+      </details>
+      <details class="faq-group" data-category="User Experience" id="topic-10">
+        <summary class="group-heading">
+          <span class="group-title">User Experience</span>
+          <span class="group-right"><svg class="chevron group-chevron" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </summary>
+        <div class="faq-items">
+          <details class="faq-item" id="qu1">
+            <summary>
+              <span class="faq-question-text">Where else can I find other data or publications from Toronto Police Service?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p>Publications by the Toronto Police Service can be found here:
+                <a href="https://www.tps.ca/services/resource-centre/?q=&amp;resource_type=pub" rel="noopener noreferrer" target="_blank">https://www.tps.ca/services/resource-centre/</a>
+</p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="qu2">
+            <summary>
+              <span class="faq-question-text">Where can I see all the data that is available on the Public Safety Data Portal?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> All datasets available on the Public Safety Data Portal are available through the 
+                <a href="https://torontops.maps.arcgis.com/apps/dashboards/f3c005f9acff45f1881437f9269eedb8" rel="noopener noreferrer" target="_blank"> Catalogue page.</a> This page identifies if the data is available for download, as well as the other tools/products that are available which report on the topic.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="qu3">
+            <summary>
+              <span class="faq-question-text">Is it possible to export the maps available on the Public Safety Data Portal?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> A "Print" function has been included in the Crime App YTD and Crime App Year End applications to enable the export of queried maps.<br/><br/> 
+                If the "Print" feature is unavailable, screenshots of any mapping application can be used as an alternative.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+          <details class="faq-item" id="qu4">
+            <summary>
+              <span class="faq-question-text">How do I download data for a dataset?</span>
+              <span class="answer-match" hidden>Match in answer</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="faq-answer"><p> To download the data, select the 'Download' button on the left panel and choose the desired format. The data will then be downloaded.
+                </p></div>
+            <p class="answer-preview" hidden></p>
+          </details>
+        </div>
+      </details>
+    </div>
+    <div id="no-results" class="empty" role="status" hidden>
+      <strong>No matching questions found</strong>
+      Try another keyword, a shorter search, or a term such as “data”, “mapping”, or “dashboard”.
+    </div>
+  </main>
+  <script>
+    (function () {
+      'use strict';
+      const searchInput = document.getElementById('faq-search');
+      const clearButton = document.getElementById('clear-search');
+      const status = document.getElementById('faq-status');
+      const emptyMessage = document.getElementById('no-results');
+      const groups = Array.from(document.querySelectorAll('.faq-group'));
+      const items = groups.flatMap(group => Array.from(group.querySelectorAll('.faq-item')));
+      const total = items.length;
+
+      // Cache all searchable text once, including content inside collapsed answers.
+      const normalized = value => (value || '').toLowerCase().normalize('NFKD')
+          .replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+      const compact = value => normalized(value).replace(/ /g, '');
+      const records = new Map(items.map(item => {
+        const group = item.closest('.faq-group');
+        const question = item.querySelector('.faq-question-text').textContent.trim();
+        const answer = item.querySelector('.faq-answer').textContent.replace(/\s+/g, ' ').trim();
+        const category = group.dataset.category;
+        return [item, {
+          question: normalized(question),
+          answer: normalized(answer),
+          category: normalized(category),
+          full: normalized(category + ' ' + question + ' ' + answer),
+          compact: compact(category + ' ' + question + ' ' + answer)
+        }];
+      }));
+      const initialCount = groups.length;
+
+      function updateSearch() {
+        const raw = searchInput.value.trim();
+        const terms = normalized(raw).split(' ').filter(Boolean);
+        const isSearching = raw.length > 0 && terms.length > 0;
+        const compactQuery = compact(raw);
+        // Treat dotted abbreviations, e.g. C.S.I. or I.P.V., as a single keyword.
+        const isAcronym = /^[a-z](?:[.\s]*[a-z]){1,}[.]?$/i.test(raw) && raw.includes('.');
+        let shown = 0;
+        let categoriesShown = 0;
+
+        for (const group of groups) {
+          let groupMatches = 0;
+          const groupItems = group.querySelectorAll('.faq-item');
+          for (const item of groupItems) {
+            const entry = records.get(item);
+            const matches = !isSearching || (isAcronym
+              ? entry.compact.includes(compactQuery)
+              : terms.every(word => entry.full.includes(word) || entry.compact.includes(word)));
+            item.hidden = !matches;
+            const questionMatches = isSearching && (isAcronym
+              ? compact(entry.question).includes(compactQuery)
+              : terms.every(word => entry.question.includes(word) || compact(entry.question).includes(word)));
+            const hint = item.querySelector('.answer-match');
+            hint.hidden = !isSearching || !matches || questionMatches;
+            if (!matches) item.open = false;
+            if (matches) { shown++; groupMatches++; }
+          }
+          group.hidden = groupMatches === 0;
+          if (groupMatches > 0) categoriesShown++;
+          group.open = isSearching ? groupMatches > 0 : false;
+        }
+        clearButton.hidden = !raw;
+        emptyMessage.hidden = !isSearching || shown !== 0;
+        if (!isSearching) {
+          status.textContent = `Browse the questions below or search by keyword.`;
+        } else {
+          status.textContent = `${shown} matching ${shown === 1 ? 'question' : 'questions'} in ${categoriesShown} ${categoriesShown === 1 ? 'category' : 'categories'} for “${raw}”.`;
+        }
+      }
+
+      searchInput.addEventListener('input', updateSearch);
+      searchInput.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && searchInput.value) {
+          searchInput.value = '';
+          updateSearch();
+        }
+      });
+      clearButton.addEventListener('click', () => {
+        searchInput.value = '';
+        updateSearch();
+        searchInput.focus();
+      });
+
+      // Optional shareable searches: append ?q=privacy to the hosted FAQ page URL.
+      const initialQuery = new URLSearchParams(window.location.search).get('q');
+      if (initialQuery) searchInput.value = initialQuery.slice(0, 120);
+      updateSearch();
+    }());
+  </script>
+</body>
+</html>
